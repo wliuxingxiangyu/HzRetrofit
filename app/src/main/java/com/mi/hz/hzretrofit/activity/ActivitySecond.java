@@ -1,11 +1,6 @@
-package com.mi.hz.hzretrofit;
+package com.mi.hz.hzretrofit.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,22 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.GsonBuilder;
+import com.mi.hz.hzretrofit.Api;
+import com.mi.hz.hzretrofit.R;
 import com.mi.hz.hzretrofit.model.BaseModel;
 import com.mi.hz.hzretrofit.model.BaseViewHolder;
 import com.mi.hz.hzretrofit.model.Benefit;
 import com.mi.hz.hzretrofit.pullrefresh.ILayoutManager;
-import com.mi.hz.hzretrofit.pullrefresh.MyLinearLayoutManager;
-import com.mi.hz.hzretrofit.pullrefresh.PullRecycler;
+import com.mi.hz.hzretrofit.pullrefresh.PullRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.Converter;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.bumptech.glide.Glide;
 
@@ -97,7 +90,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
             mDataList = new ArrayList<>();
         }
 
-        if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
+        if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
             page = 1;
         }
 
@@ -115,7 +108,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
         call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
                          @Override
                          public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
-                             if (action == PullRecycler.ACTION_PULL_TO_REFRESH) {
+                             if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
                                  mDataList.clear();
                              }
                              if (response.body().results == null || response.body().results.size() == 0) {

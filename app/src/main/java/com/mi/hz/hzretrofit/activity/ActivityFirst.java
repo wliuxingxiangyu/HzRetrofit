@@ -1,9 +1,11 @@
-package com.mi.hz.hzretrofit;
+package com.mi.hz.hzretrofit.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.mi.hz.hzretrofit.R;
 
 public class ActivityFirst extends Activity {
 

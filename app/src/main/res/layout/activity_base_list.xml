@@ -4,7 +4,7 @@
 
     <include layout="@layout/widget_toolbar" />
 
-    <com.mi.hz.hzretrofit.pullrefresh.PullRecycler
+    <com.mi.hz.hzretrofit.pullrefresh.PullRefreshLayout
         android:id="@id/pullRecycler"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"

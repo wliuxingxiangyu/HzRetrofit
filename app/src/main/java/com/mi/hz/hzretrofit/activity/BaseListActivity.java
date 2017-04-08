@@ -1,32 +1,31 @@
-package com.mi.hz.hzretrofit;
+package com.mi.hz.hzretrofit.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mi.hz.hzretrofit.R;
 import com.mi.hz.hzretrofit.model.BaseListAdapter;
 import com.mi.hz.hzretrofit.model.BaseViewHolder;
 import com.mi.hz.hzretrofit.pullrefresh.DividerItemDecoration;
 import com.mi.hz.hzretrofit.pullrefresh.ILayoutManager;
 import com.mi.hz.hzretrofit.pullrefresh.MyLinearLayoutManager;
-import com.mi.hz.hzretrofit.pullrefresh.PullRecycler;
+import com.mi.hz.hzretrofit.pullrefresh.PullRefreshLayout;
 
 import java.util.ArrayList;
-import com.mi.hz.hzretrofit.model.BaseListAdapter;
 
 /**
  * Created by mi on 17-4-8.
  */
 
-public abstract  class BaseListActivity <T> extends Activity implements PullRecycler.OnRecyclerRefreshListener ,Toolbar.OnMenuItemClickListener{
+public abstract  class BaseListActivity <T> extends Activity implements PullRefreshLayout.OnRecyclerRefreshListener ,Toolbar.OnMenuItemClickListener{
     protected BaseListAdapter adapter;
     protected ArrayList<T> mDataList;
-    protected PullRecycler recycler;
+    protected PullRefreshLayout recycler;
     protected Toolbar toolbar;
     protected TextView toolbar_title;
     public static final int MODE_BACK = 0;
@@ -96,7 +95,7 @@ public abstract  class BaseListActivity <T> extends Activity implements PullRecy
     }
 
     protected void setUpView() {
-        recycler = (PullRecycler) findViewById(R.id.pullRecycler);
+        recycler = (PullRefreshLayout) findViewById(R.id.pullRecycler);
     }
 
     protected void setUpTitle(int titleResId) {
