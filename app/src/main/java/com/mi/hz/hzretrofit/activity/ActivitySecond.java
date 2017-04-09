@@ -1,6 +1,7 @@
 package com.mi.hz.hzretrofit.activity;
 
 import android.content.Intent;
+import android.database.Observable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,8 +35,6 @@ import com.bumptech.glide.Glide;
  */
 
 public class ActivitySecond extends BaseListActivity<Benefit> {
-
-
     private int random;
     private int page = 1;
     private static final String TAG = "ActivitySecond";
@@ -109,6 +108,11 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
                 .build();
 
         Api api = retrofit.create(Api.class);
+        useCall(api,action);
+
+    }
+
+    private void useCall(Api api,final int action){
         Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(mType,20, page++);
         Log.d("hz--",TAG+",page="+page+",mType="+mType);
 
@@ -138,7 +142,41 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
                          }
                      }
         );
+
     }
+
+//    private void useObservable(Api api,final int action){
+//        Observable<BaseModel<ArrayList<Benefit>>> observable = api.rxBenefits(mType, 20, page++);
+//        Log.d("hz--",TAG+",page="+page+",mType="+mType);
+//
+//        observable.subscribeOn(new Callback<BaseModel<ArrayList<Benefit>>>() {
+//                         @Override
+//                         public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
+//                             if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
+//                                 Log.d("hz--", TAG + ",加载--刷新--mDataList.clear()");
+//                                 mDataList.clear();
+//                             }
+//
+//                             if (response.body().results == null || response.body().results.size() == 0) {
+//                                 recycler.enableLoadMore(false);
+//                             } else {
+//                                 Log.d("hz--", TAG + ",加载更多-response.body().results=" + response.body().results.toString());
+//                                 recycler.enableLoadMore(true);
+//                                 mDataList.addAll(response.body().results);
+//                                 adapter.notifyDataSetChanged();
+//                             }
+//
+//                             recycler.onRefreshCompleted();
+//                         }
+//
+//                         @Override
+//                         public void onFailure(Call<BaseModel<ArrayList<Benefit>>> call, Throwable t) {
+//                             recycler.onRefreshCompleted();
+//                         }
+//                     }
+//        );
+//
+//    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
