@@ -13,6 +13,7 @@ import android.view.View;
  * 只支持LinearLayoutManager
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+    private static final String TAG = "DividerItemDecoration";
 
     private Drawable dividerDrawable;
     private int orientation = LinearLayoutManager.VERTICAL;

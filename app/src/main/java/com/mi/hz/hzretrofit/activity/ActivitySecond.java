@@ -1,6 +1,7 @@
 package com.mi.hz.hzretrofit.activity;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
 
     private int random;
     private int page = 1;
+    private static final String TAG = "ActivitySecond";
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +96,6 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
             page = 1;
         }
 
-//        GsonBuilder builder = new GsonBuilder();
-//        Gson gson = builder.create();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://gank.io/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -104,20 +103,25 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
 
         Api api = retrofit.create(Api.class);
         Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(20, page++);
+        Log.d("hz--",TAG+",page="+page);
 
         call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
                          @Override
                          public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
                              if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
+                                 Log.d("hz--",TAG+",加载--刷新--mDataList.clear()");
                                  mDataList.clear();
                              }
+
                              if (response.body().results == null || response.body().results.size() == 0) {
                                  recycler.enableLoadMore(false);
                              } else {
+                                 Log.d("hz--",TAG+",加载更多-response.body().results="+response.body().results.toString());
                                  recycler.enableLoadMore(true);
                                  mDataList.addAll(response.body().results);
                                  adapter.notifyDataSetChanged();
                              }
+
                              recycler.onRefreshCompleted();
                          }
 
@@ -137,17 +141,21 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
     class SampleViewHolder extends BaseViewHolder {
 
         ImageView mSampleListItemImg;
-        TextView mSampleListItemLabel;
+        TextView mSampleListItemWho;
+        TextView mSampleListItemDes;
 
         public SampleViewHolder(View itemView) {
             super(itemView);
-            mSampleListItemLabel = (TextView) itemView.findViewById(R.id.mSampleListItemLabel);
-            mSampleListItemImg = (ImageView) itemView.findViewById(R.id.mSampleListItemImg);
+            mSampleListItemImg = (ImageView) itemView.findViewById(R.id.item_img);
+            mSampleListItemWho = (TextView) itemView.findViewById(R.id.item_who);
+            mSampleListItemDes = (TextView) itemView.findViewById(R.id.item_des);
+
         }
 
         @Override
         public void onBindViewHolder(int position) {
-            mSampleListItemLabel.setVisibility(View.GONE);
+            mSampleListItemWho.setText(mDataList.get(position).who);
+            mSampleListItemDes.setText(mDataList.get(position).desc);
             Glide.with(mSampleListItemImg.getContext())
                     .load(mDataList.get(position).url)
                     .centerCrop()

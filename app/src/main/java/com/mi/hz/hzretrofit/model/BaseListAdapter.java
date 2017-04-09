@@ -16,6 +16,7 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
 
     protected static final int VIEW_TYPE_LOAD_MORE_FOOTER = 100;
     protected boolean isLoadMoreFooterShown;
+    private static final String TAG = "BaseListAdapter";
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

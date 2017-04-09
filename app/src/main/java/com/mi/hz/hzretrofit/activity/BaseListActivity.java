@@ -32,6 +32,7 @@ public abstract  class BaseListActivity <T> extends Activity implements PullRefr
     public static final int MODE_DRAWER = 1;
     public static final int MODE_NONE = 2;
     public static final int MODE_HOME = 3;
+    private static final String TAG = "BaseListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

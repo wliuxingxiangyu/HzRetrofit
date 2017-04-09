@@ -13,6 +13,7 @@ import com.mi.hz.hzretrofit.model.BaseListAdapter;
  * Powered by www.stay4it.com
  */
 public class MyLinearLayoutManager extends LinearLayoutManager implements ILayoutManager {
+    private static final String TAG = "MyLinearLayoutManager";
     public MyLinearLayoutManager(Context context) {
         super(context);
     }
