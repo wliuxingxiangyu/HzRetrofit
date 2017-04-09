@@ -1,18 +1,27 @@
 package com.mi.hz.hzretrofit.model;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mi.hz.hzretrofit.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by mi on 17-4-8.
  */
 
-public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
     protected static final int VIEW_TYPE_LOAD_MORE_FOOTER = 100;
     protected boolean isLoadMoreFooterShown;
@@ -95,4 +104,6 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<BaseViewHolde
 
         }
     }
+
+
 }

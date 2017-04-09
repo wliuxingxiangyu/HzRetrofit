@@ -1,5 +1,7 @@
 package com.mi.hz.hzretrofit.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.mi.hz.hzretrofit.Api;
 import com.mi.hz.hzretrofit.R;
+import com.mi.hz.hzretrofit.model.BaseListAdapter;
 import com.mi.hz.hzretrofit.model.BaseModel;
 import com.mi.hz.hzretrofit.model.BaseViewHolder;
 import com.mi.hz.hzretrofit.model.Benefit;
@@ -36,6 +39,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
     private int random;
     private int page = 1;
     private static final String TAG = "ActivitySecond";
+    private String mType;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +50,14 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
 
     @Override
     protected void setUpTitle(int titleResId) {
-        super.setUpTitle(R.string.title_recycler_activity);
+//        titleResId = R.id.action_bar_title;
+//        super.setUpTitle("正在加载"+mType);
     }
 
     @Override
     protected void setUpData() {
+        Intent in =getIntent();
+        mType=in.getStringExtra("type");
         super.setUpData();
         recycler.setRefreshing();
     }
@@ -102,21 +109,21 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(20, page++);
-        Log.d("hz--",TAG+",page="+page);
+        Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(mType,20, page++);
+        Log.d("hz--",TAG+",page="+page+",mType="+mType);
 
         call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
                          @Override
                          public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
                              if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
-                                 Log.d("hz--",TAG+",加载--刷新--mDataList.clear()");
+                                 Log.d("hz--", TAG + ",加载--刷新--mDataList.clear()");
                                  mDataList.clear();
                              }
 
                              if (response.body().results == null || response.body().results.size() == 0) {
                                  recycler.enableLoadMore(false);
                              } else {
-                                 Log.d("hz--",TAG+",加载更多-response.body().results="+response.body().results.toString());
+                                 Log.d("hz--", TAG + ",加载更多-response.body().results=" + response.body().results.toString());
                                  recycler.enableLoadMore(true);
                                  mDataList.addAll(response.body().results);
                                  adapter.notifyDataSetChanged();
@@ -138,7 +145,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
         return false;
     }
 
-    class SampleViewHolder extends BaseViewHolder {
+    public class SampleViewHolder extends BaseViewHolder {
 
         ImageView mSampleListItemImg;
         TextView mSampleListItemWho;
@@ -156,17 +163,24 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
         public void onBindViewHolder(int position) {
             mSampleListItemWho.setText(mDataList.get(position).who);
             mSampleListItemDes.setText(mDataList.get(position).desc);
-            Glide.with(mSampleListItemImg.getContext())
-                    .load(mDataList.get(position).url)
-                    .centerCrop()
-                    .placeholder(R.color.app_primary_color)
-                    .crossFade()
-                    .into(mSampleListItemImg);
+            String url = mDataList.get(position).url;
+            if(url != null && url.endsWith(".jpg")){
+                mSampleListItemImg.setVisibility(View.VISIBLE);
+                Glide.with(mSampleListItemImg.getContext())
+                        .load(mDataList.get(position).url)
+                        .centerCrop()
+                        .placeholder(R.color.app_primary_color)
+                        .crossFade()
+                        .into(mSampleListItemImg);
+            }
         }
 
         @Override
         public void onItemClick(View view, int position) {
-
+            Uri uri = Uri.parse(mDataList.get(position).url);
+            Log.d("hz--", TAG + ",mDataList.get(position).url=" + mDataList.get(position).url);
+            Intent it = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(it);
         }
 
     }

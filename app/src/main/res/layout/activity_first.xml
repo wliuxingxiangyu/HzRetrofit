@@ -2,12 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/start_load_btn"
+        android:id="@+id/btn_start_load_welfare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始加载" />
+        android:text="去展示福利图片" />
+
+    <Button
+        android:id="@+id/btn_start_load_android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="去展示安卓资源" />
+
+    <Button
+        android:id="@+id/btn_start_load_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="去展示所有资源" />
 
 </LinearLayout>

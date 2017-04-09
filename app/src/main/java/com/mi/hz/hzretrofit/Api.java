@@ -14,8 +14,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public  interface Api {
-    @GET("api/data/福利/{pageCount}/{pageIndex}")
+    @GET("api/data/{type}/{pageCount}/{pageIndex}")
     Call<BaseModel<ArrayList<Benefit>>> defaultBenefits(
+            @Path("type") String type,
             @Path("pageCount") int pageCount,
             @Path("pageIndex") int pageIndex
     );
