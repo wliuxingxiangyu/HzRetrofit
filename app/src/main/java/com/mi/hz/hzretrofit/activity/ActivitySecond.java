@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mi.hz.hzretrofit.Api;
+import com.mi.hz.hzretrofit.ApiService;
 import com.mi.hz.hzretrofit.R;
 import com.mi.hz.hzretrofit.model.BaseListAdapter;
 import com.mi.hz.hzretrofit.model.BaseModel;
 import com.mi.hz.hzretrofit.model.BaseViewHolder;
-import com.mi.hz.hzretrofit.model.Benefit;
+import com.mi.hz.hzretrofit.model.Bean;
 import com.mi.hz.hzretrofit.pullrefresh.ILayoutManager;
 import com.mi.hz.hzretrofit.pullrefresh.PullRefreshLayout;
 
@@ -34,7 +34,7 @@ import com.bumptech.glide.Glide;
  * Created by mi on 17-4-8.
  */
 
-public class ActivitySecond extends BaseListActivity<Benefit> {
+public class ActivitySecond extends BaseListActivity<Bean> {
     private int random;
     private int page = 1;
     private static final String TAG = "ActivitySecond";
@@ -107,18 +107,18 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Api api = retrofit.create(Api.class);
+        ApiService api = retrofit.create(ApiService.class);
         useCall(api,action);
 
     }
 
-    private void useCall(Api api,final int action){
-        Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(mType,20, page++);
+    private void useCall(ApiService apiService,final int action){
+        Call<BaseModel<ArrayList<Bean>>> call = apiService.ListBean(mType,20, page++);
         Log.d("hz--",TAG+",page="+page+",mType="+mType);
 
-        call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
+        call.enqueue(new Callback<BaseModel<ArrayList<Bean>>>() {
                          @Override
-                         public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
+                         public void onResponse(Call<BaseModel<ArrayList<Bean>>> call, Response<BaseModel<ArrayList<Bean>>> response) {
                              if (action == PullRefreshLayout.ACTION_PULL_TO_REFRESH) {
                                  Log.d("hz--", TAG + ",加载--刷新--mDataList.clear()");
                                  mDataList.clear();
@@ -137,7 +137,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
                          }
 
                          @Override
-                         public void onFailure(Call<BaseModel<ArrayList<Benefit>>> call, Throwable t) {
+                         public void onFailure(Call<BaseModel<ArrayList<Bean>>> call, Throwable t) {
                              recycler.onRefreshCompleted();
                          }
                      }
@@ -146,7 +146,7 @@ public class ActivitySecond extends BaseListActivity<Benefit> {
     }
 
 //    private void useObservable(Api api,final int action){
-//        Observable<BaseModel<ArrayList<Benefit>>> observable = api.rxBenefits(mType, 20, page++);
+//        Observable<BaseModel<ArrayList<Bean>>> observable = api.rxBenefits(mType, 20, page++);
 //        Log.d("hz--",TAG+",page="+page+",mType="+mType);
 //
 //        observable.subscribeOn(new Callback<BaseModel<ArrayList<Benefit>>>() {
